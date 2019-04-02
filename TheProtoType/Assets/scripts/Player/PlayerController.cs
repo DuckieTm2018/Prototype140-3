@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     public float speed = 5f;
+    public float crouchSpeed = 2.5f;
     public bool Crouch;
     public GameObject Player;
     public GameObject PauseMenu;
@@ -35,7 +36,8 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKeyDown("escape"))
         {
             Cursor.lockState = CursorLockMode.None;
-            PauseMenu.SetActive(true);
+            if (PauseMenu != null) 
+                PauseMenu.SetActive(true);
         }
 
 
@@ -48,18 +50,18 @@ public class PlayerController : MonoBehaviour {
 
     private void crouching()
     {
-        var CrouchKey = Input.GetKey(KeyCode.C);
+        var CrouchKey = Input.GetKey(KeyCode.LeftControl);
 
         if (!Crouch && CrouchKey)
         {
             Player.transform.localScale += new Vector3(0, -0.5f, 0);
             Crouch = true;
-            speed = 2.5f;
+            speed = crouchSpeed;
  
 
         }
 
-        if (Input.GetKeyUp(KeyCode.C))
+        if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             speed = 5f;
           
@@ -72,14 +74,17 @@ public class PlayerController : MonoBehaviour {
 
             if (!cantStand)
             {
-                Player.transform.localScale += new Vector3(0, +0.5f, 0);
+                Player.transform.localScale += new Vector3 (0, +0.5f, 0);
                 Crouch = false;
-                
+                speed = 5;
+            }
+            else if (cantStand)
+            {
+                Crouch = true;
+                speed = crouchSpeed;
             }
         }
     }
-
-
 }
 
     

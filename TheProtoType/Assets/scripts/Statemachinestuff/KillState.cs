@@ -7,7 +7,16 @@ public class KillState : State
 
     private void Start ()
     {
+        Init ();
+    }
+
+    protected override void Init ()
+    {
+
+        base.Init ();
+
         name = "kill";
+
     }
 
     public override void StateEnter ()

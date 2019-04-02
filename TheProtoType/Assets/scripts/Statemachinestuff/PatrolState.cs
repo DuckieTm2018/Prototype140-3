@@ -1,19 +1,35 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PatrolState : State
 {
 
+    [Tooltip ("The parent object for all the patrol points")]
     [SerializeField] Transform patrolParent;
     Vector3 [] patrolPoints;
+    int currentPoint = 0;
 
     private void Start ()
     {
+        Init ();
+    }
+
+    protected override void Init ()
+    {
+
+        base.Init ();
+
+        if (debugState)
+        {
+            if (patrolParent == null) Debug.Log ("'Patrol Parent' has not been set");
+        }
+
         name = "patrol";
 
         List<Vector3> points = new List<Vector3> ();
-        foreach(Transform t in patrolParent)
+        foreach (Transform t in patrolParent)
         {
             points.Add (t.position);
         }
@@ -23,17 +39,52 @@ public class PatrolState : State
 
     public override void StateEnter ()
     {
-        base.StateEnter ();
+
+        if (debugState) Debug.Log (string.Format ("{0} started patrolling", gameObject.name));
+
+        brain.Agent ().SetDestination (patrolPoints [currentPoint]);
+
     }
 
     public override void StateUpdate ()
     {
-        base.StateUpdate ();
+
+        if (debugState) Debug.Log (string.Format ("{0} is patrolliing", gameObject.name));
+
+        if (brain.IsAtDestination ())
+        {
+            if (!brain.Waiting ())
+                StartCoroutine (WaitAtPoint ());
+        }
     }
 
     public override void StateExit ()
     {
-        base.StateExit ();
+
+        if (debugState) Debug.Log (string.Format ("{0} ended patrolling", gameObject.name));
+
+        StopCoroutine (WaitAtPoint ());
+        brain.Agent ().SetDestination (transform.position);
+    }
+
+    public Vector3 SelectDestination ()
+    {
+        currentPoint++;
+        if (currentPoint >= patrolPoints.Length)
+        {
+            currentPoint = 0;
+        }
+
+        return patrolPoints [currentPoint];
+
+    }
+
+    IEnumerator WaitAtPoint ()
+    {
+        brain.SetWaiting(true);
+        yield return new WaitForSeconds (brain.WaitTime ());
+        brain.Agent ().SetDestination (SelectDestination ());
+        brain.SetWaiting(false);
     }
 
 }

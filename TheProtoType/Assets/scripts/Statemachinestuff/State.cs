@@ -6,18 +6,27 @@ public class State : MonoBehaviour, IState
 {
 
     protected new string name = "default";
+    [Tooltip ("Will debug messages for this state")]
+    [SerializeField] protected bool debugState = false;
+
+    protected EnemyAI brain;
+
+    protected virtual void Init ()
+    {
+        brain = GetComponent<EnemyAI> ();
+    }
 
     public virtual void StateEnter ()
     {
         throw new System.NotImplementedException ();
     }
 
-    public virtual void StateExit ()
+    public virtual void StateUpdate ()
     {
         throw new System.NotImplementedException ();
     }
 
-    public virtual void StateUpdate ()
+    public virtual void StateExit ()
     {
         throw new System.NotImplementedException ();
     }

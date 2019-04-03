@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent (typeof (EnemyAI))]
 public class SearchState : State
 {
 
@@ -11,17 +12,12 @@ public class SearchState : State
     [SerializeField] float searchTime = 3;
     float currentTime;
 
-
-
-    private void Start ()
+    public override void Init ()
     {
-        Init ();
-    }
-
-    protected override void Init ()
-    {
-
+        //Debug.Log ("search init");
         base.Init ();
+
+        brain = GetComponent<EnemyAI> ();
 
         name = "search"; 
 
@@ -34,6 +30,12 @@ public class SearchState : State
 
         lastKnownPos = brain.Player ().transform.position;
 
+        brain.Agent ().SetDestination (lastKnownPos);
+
+        brain.SetSearching (true);
+
+        StartCoroutine (Search ());
+
     }
 
     public override void StateUpdate ()
@@ -43,12 +45,15 @@ public class SearchState : State
 
     public override void StateExit ()
     {
-        base.StateExit ();
+        if (debugState) Debug.Log (string.Format ("{0} ended searching", gameObject.name));
+        StopCoroutine (Search ());
+        brain.SetSearching (false);
     }
 
     IEnumerator Search ()
     {
         brain.SetSearching (true);
+        Debug.Log ("Started searching");
         while(currentTime < searchTime)
         {
 
@@ -65,7 +70,7 @@ public class SearchState : State
     IEnumerator WaitAtPoint ()
     {
         brain.SetWaiting (true);
-        yield return new WaitForSeconds (brain.WaitTime ());
+        yield return new WaitForSeconds (1);
         try
         {
             brain.Agent ().SetDestination (transform.position + new Vector3(Random.Range(1, 3), 0, Random.Range (1, 3)));

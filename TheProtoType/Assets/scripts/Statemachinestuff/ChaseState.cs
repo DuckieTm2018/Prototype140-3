@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent (typeof (EnemyAI))]
 public class ChaseState : State
 {
 
-    private void Start ()
+    public override void Init ()
     {
-        Init ();
-    }
-
-    protected override void Init ()
-    {
-
+        //Debug.Log ("chase init");
         base.Init ();
+
+        brain = GetComponent<EnemyAI> ();
 
         name = "chase";
 

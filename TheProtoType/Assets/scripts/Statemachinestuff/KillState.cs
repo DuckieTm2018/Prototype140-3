@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent (typeof (EnemyAI))]
 public class KillState : State
 {
 
-    private void Start ()
+    public override void Init ()
     {
-        Init ();
-    }
-
-    protected override void Init ()
-    {
-
+        //Debug.Log ("kill init");
         base.Init ();
+
+        brain = GetComponent<EnemyAI> ();
 
         name = "kill";
 

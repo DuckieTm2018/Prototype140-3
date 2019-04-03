@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyAI))]
 public class State : MonoBehaviour, IState
 {
 
@@ -11,7 +12,7 @@ public class State : MonoBehaviour, IState
 
     protected EnemyAI brain;
 
-    protected virtual void Init ()
+    public virtual void Init ()
     {
         brain = GetComponent<EnemyAI> ();
     }

@@ -26,21 +26,35 @@ public class EnemyAI : MonoBehaviour
     bool waiting;
     bool searching = false;
 
-    void Start ()
+    void Awake ()
     {
+        State p = GetComponent<PatrolState> ();
+        State c = GetComponent<ChaseState> ();
+        State s = GetComponent<SearchState> ();
+        State k = GetComponent<KillState> ();
 
         agent = GetComponent<NavMeshAgent> ();
-
-        states.Add (GetComponent<PatrolState> ());
-        states.Add (GetComponent<ChaseState> ());
-        states.Add (GetComponent<SearchState> ());
-        states.Add (GetComponent<KillState> ());
+        Debug.Log (agent);
+        //if (agent == null) Debug.Log ("null agent");
+        states.Add (p);
+        states.Add (c);
+        states.Add (s);
+        states.Add (k);
 
         player = GameObject.Find ("Player");
         if (player == null) Debug.Log ("Enemies cannot find player in the scene. Is the player in the scene and named 'Player'?");
 
         InitRay ();
-        if (CastRayAtPlayer ().collider.CompareTag ("ENEMY")) Debug.Log ("Rays cast will hit the enemy. Is the layer mask on the enemy set to everything except the enemy layer?");
+        CastRayAtPlayer ();
+        if (hit.collider != null)
+            if(hit.collider.CompareTag ("ENEMY")) Debug.Log ("Rays cast will hit the enemy. Is the layer mask on the enemy set to everything except the enemy layer?");
+
+        agent.SetDestination (transform.position);
+
+        p.Init ();
+        c.Init ();
+        s.Init ();
+        k.Init ();
 
         ChangeState (states [0]);
 
@@ -49,11 +63,15 @@ public class EnemyAI : MonoBehaviour
     void Update ()
     {
         SelectState ();
+        currentState.StateUpdate ();
+        Debug.Log (searching);
     }
 
     void SelectState ()
     {
-        var _currentStateName = currentState.GetName ();
+        var _currentStateName = "";
+        if(currentState != null)
+            _currentStateName = currentState.GetName ();
         if (CanSeePlayerInRange ())
         {
             if (_currentStateName == "patrol")
@@ -63,11 +81,11 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            if (_currentStateName == "chase")
-                ChangeState (states [3]);
             if (_currentStateName == "search")
                 if (!searching)
                     ChangeState (states [0]);
+            if (_currentStateName == "chase")
+                ChangeState (states [2]);
         }
     }
 
@@ -96,13 +114,17 @@ public class EnemyAI : MonoBehaviour
 
     bool CanSeePlayerInRange ()
     {
-        return CastRayAtPlayer ().collider.CompareTag ("Player");
+        CastRayAtPlayer ();
+        if (hit.collider != null)
+            return hit.collider.CompareTag ("Player");
+        else return false;
     }
 
     RaycastHit CastRayAtPlayer ()
     {
         InitRay ();
         Physics.Raycast (ray, out hit, detectRange, mask);
+        Debug.DrawRay (ray.origin, ray.direction * 10, Color.red, 5);
         return hit;
     }
 

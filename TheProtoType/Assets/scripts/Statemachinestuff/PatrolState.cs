@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent (typeof (EnemyAI))]
 public class PatrolState : State
 {
 
@@ -11,15 +12,12 @@ public class PatrolState : State
     Vector3 [] patrolPoints;
     int currentPoint = 0;
 
-    private void Start ()
+    public override void Init ()
     {
-        Init ();
-    }
-
-    protected override void Init ()
-    {
-
+        //Debug.Log ("patrol init");
         base.Init ();
+
+        //brain = GetComponent<EnemyAI> ();
 
         if (debugState)
         {
@@ -39,9 +37,9 @@ public class PatrolState : State
 
     public override void StateEnter ()
     {
-
         if (debugState) Debug.Log (string.Format ("{0} started patrolling", gameObject.name));
-
+        //Debug.Log (brain);
+        //Debug.Log (brain.gameObject.name);
         brain.Agent ().SetDestination (patrolPoints [currentPoint]);
 
     }

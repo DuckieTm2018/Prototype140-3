@@ -64,11 +64,12 @@ public class EnemyAI : MonoBehaviour
     {
         SelectState ();
         currentState.StateUpdate ();
-        Debug.Log (searching);
+        //Debug.Log (searching);
     }
 
     void SelectState ()
     {
+        Debug.Log ("searching :" + searching);
         var _currentStateName = "";
         if(currentState != null)
             _currentStateName = currentState.GetName ();
@@ -175,6 +176,7 @@ public class EnemyAI : MonoBehaviour
     public void SetSearching(bool newVal)
     {
         searching = newVal;
+        //Debug.Log ("Searching");
     }
 
 }

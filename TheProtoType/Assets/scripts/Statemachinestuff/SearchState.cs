@@ -48,6 +48,7 @@ public class SearchState : State
         if (debugState) Debug.Log (string.Format ("{0} ended searching", gameObject.name));
         StopCoroutine (Search ());
         brain.SetSearching (false);
+        currentTime = 0;
     }
 
     IEnumerator Search ()
@@ -56,13 +57,14 @@ public class SearchState : State
         Debug.Log ("Started searching");
         while(currentTime < searchTime)
         {
-
+            Debug.Log ("is searching");
             if (brain.IsAtDestination ())
                 if (!brain.Waiting ())
                     StartCoroutine (WaitAtPoint ());
 
             currentTime += Time.deltaTime;
             yield return new WaitForEndOfFrame ();
+
         }
         brain.SetSearching (false);
     }

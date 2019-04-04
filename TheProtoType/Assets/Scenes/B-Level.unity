@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1020,7 +1020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa6497eb91e33047acf4b084fee831b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugState: 1
+  debugState: 0
   patrolParent: {fileID: 1962771010}
 --- !u!114 &1512927830
 MonoBehaviour:
@@ -1033,7 +1033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3fb667aff87f294785f5780c3c6bad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugState: 1
+  debugState: 0
 --- !u!114 &1512927831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1045,7 +1045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d322b847c760c34ca313004d3ae4439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugState: 1
+  debugState: 0
   searchTime: 3
 --- !u!114 &1512927832
 MonoBehaviour:
@@ -1058,7 +1058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec987e67a5ad264c957f89f37aae410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugState: 1
+  debugState: 0
 --- !u!195 &1512927833
 NavMeshAgent:
   m_ObjectHideFlags: 0

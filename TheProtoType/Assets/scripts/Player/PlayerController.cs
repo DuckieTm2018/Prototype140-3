@@ -10,7 +10,12 @@ public class PlayerController : MonoBehaviour {
     public bool Crouch;
     public GameObject Player;
     public GameObject PauseMenu;
+    public GameObject playerCamera;
     GameObject [] enemyCams;
+    [Tooltip("The length of time that the player will stay in the enemies camera")]
+    [SerializeField] float switchTime = 3;
+    [SerializeField] float cooldownTime = 6;
+    bool canSwitch = true;
     
 
     // Use this for initialization
@@ -24,7 +29,8 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetKeyDown (KeyCode.Tab))
         {
-            SwitchCamera ();
+            if(canSwitch)
+                SwitchCamera ();
         }
 
 
@@ -55,8 +61,9 @@ public class PlayerController : MonoBehaviour {
 
     private void SwitchCamera ()
     {
+        canSwitch = false;
         float closest = Mathf.Infinity;
-        GameObject closeCam;
+        GameObject closeCam = playerCamera;
         foreach(var c in enemyCams)
         {
             float cur = Vector3.Distance (transform.position, c.transform.position);
@@ -67,6 +74,18 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        playerCamera.SetActive (false);
+        closeCam.SetActive (true);
+
+    }
+
+    IEnumerator CameraStuff (GameObject cam)
+    {
+        yield return new WaitForSeconds (switchTime);
+        cam.SetActive (false);
+        playerCamera.SetActive (true);
+        yield return new WaitForSeconds (cooldownTime);
+        canSwitch = true;
     }
 
     private void crouching()

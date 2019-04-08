@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,18 +10,22 @@ public class PlayerController : MonoBehaviour {
     public bool Crouch;
     public GameObject Player;
     public GameObject PauseMenu;
+    GameObject [] enemyCams;
     
 
     // Use this for initialization
     void Start () {
         Cursor.lockState = CursorLockMode.Locked;
-        
+        enemyCams = GameObject.FindGameObjectsWithTag ("EnemyCam");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        
 
+        if (Input.GetKeyDown (KeyCode.Tab))
+        {
+            SwitchCamera ();
+        }
 
 
         float translation = Input.GetAxis("Vertical") * speed;
@@ -45,6 +50,22 @@ public class PlayerController : MonoBehaviour {
         crouching();
      
 
+
+    }
+
+    private void SwitchCamera ()
+    {
+        float closest = Mathf.Infinity;
+        GameObject closeCam;
+        foreach(var c in enemyCams)
+        {
+            float cur = Vector3.Distance (transform.position, c.transform.position);
+            if (cur < closest)
+            {
+                closeCam = c;
+                closest = cur;
+            }
+        }
 
     }
 

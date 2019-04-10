@@ -7,6 +7,8 @@ TagManager:
   - CamaraB
   - ENEMY
   - Hidden
+  - PatrolPoints
+  - EnemyCam
   layers:
   - Default
   - TransparentFX

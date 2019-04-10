@@ -64,9 +64,11 @@ public class PlayerController : MonoBehaviour {
         canSwitch = false;
         float closest = Mathf.Infinity;
         GameObject closeCam = playerCamera;
+        Debug.Log(enemyCams.Length);
         foreach(var c in enemyCams)
         {
             float cur = Vector3.Distance (transform.position, c.transform.position);
+            Debug.Log(cur);
             if (cur < closest)
             {
                 closeCam = c;
@@ -76,6 +78,7 @@ public class PlayerController : MonoBehaviour {
 
         playerCamera.SetActive (false);
         closeCam.SetActive (true);
+        StartCoroutine(CameraStuff(closeCam));
 
     }
 

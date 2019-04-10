@@ -12,6 +12,14 @@ public class Key : MonoBehaviour
         dm = GameObject.Find ("LockedDoor").GetComponent<DoorManager> ();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void OnDestroy ()
     {
         dm.CollectKey ();

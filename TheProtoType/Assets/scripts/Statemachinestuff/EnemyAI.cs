@@ -34,7 +34,7 @@ public class EnemyAI : MonoBehaviour
         State k = GetComponent<KillState> ();
 
         agent = GetComponent<NavMeshAgent> ();
-        Debug.Log (agent);
+        //Debug.Log (agent);
         //if (agent == null) Debug.Log ("null agent");
         states.Add (p);
         states.Add (c);
@@ -69,7 +69,7 @@ public class EnemyAI : MonoBehaviour
 
     void SelectState ()
     {
-        Debug.Log ("searching :" + searching);
+        //Debug.Log ("searching :" + searching);
         var _currentStateName = "";
         if(currentState != null)
             _currentStateName = currentState.GetName ();

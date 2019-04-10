@@ -18,13 +18,18 @@ public class DoorManager : MonoBehaviour
     {
         if(keysCollected == numberOfKeys)
         {
-            anim.SetTrigger ("Open");
+            Destroy(gameObject);
+           
         }
     }
 
     public void CollectKey ()
     {
         keysCollected++;
+        if(keysCollected == numberOfKeys)
+        {
+            OpenDoor();
+        }
     }
 
 }

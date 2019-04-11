@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         enemyCams = GameObject.FindGameObjectsWithTag ("EnemyCam");
 	}
 	
@@ -93,7 +94,7 @@ public class PlayerController : MonoBehaviour {
 
     private void crouching()
     {
-        var CrouchKey = Input.GetKey(KeyCode.LeftControl);
+        var CrouchKey = Input.GetKey(KeyCode.LeftShift);
 
         if (!Crouch && CrouchKey)
         {
@@ -104,7 +105,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftControl))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             speed = 5f;
           

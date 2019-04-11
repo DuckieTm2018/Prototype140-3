@@ -14,7 +14,7 @@ public class Death : MonoBehaviour
             if (dead) return;
 
             Debug.Log("Player hit the death zone!"); // a message in console so i can tell the code is working
-            GameManager.Instance.Death();
+            SceneManager.LoadScene("Z-Level");
         }
     }
 }

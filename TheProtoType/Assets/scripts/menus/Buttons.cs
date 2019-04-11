@@ -16,7 +16,7 @@ public class Buttons : MonoBehaviour {
 
     public void StartButton()
     {
-        SceneManager.LoadScene("B-Level");
+        SceneManager.LoadScene("Z-Level");
         Debug.Log("Load Game");
     }
 
